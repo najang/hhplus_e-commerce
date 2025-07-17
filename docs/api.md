@@ -10,7 +10,7 @@
 
 ### Responses
 
-![](../img/api/balance/user_balance_04.png)
+![](../img/api/balance/user_balance_03.png)
 
 
 ## 유저 포인트 충전
@@ -27,7 +27,7 @@
 
 ### Responses
 
-![](../img/api/user_point/user_point_04.png)
+![](../img/api/user_point/user_charge_04.png)
 
 
 ## 상품 조회
@@ -97,8 +97,8 @@
 
 ### Request body
 
-![](../img/api/coupon/coupon_issue.png)
+![](../img/api/coupon/coupon_issue_02.png)
 
 ### Responses
 
-![](../img/api/coupon/coupon_issue.png)
+![](../img/api/coupon/coupon_issue_03.png)
