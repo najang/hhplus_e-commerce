@@ -69,6 +69,7 @@ sequenceDiagram
     participant 결제
     participant 사용자
     participant 잔고 이력
+    participant 데이터 플랫폼
 
     Client->>주문: 주문/결제 요청
 
@@ -122,6 +123,9 @@ sequenceDiagram
     deactivate 사용자
 
     결제-->>주문: 결제 성공 응답
+
+    주문->>데이터 플랫폼: 통계 내역 전송
+
     deactivate 결제
     주문-->>Client: 주문 성공 응답
     deactivate 주문
