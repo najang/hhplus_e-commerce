@@ -27,7 +27,7 @@
 
 ### Responses
 
-![](../img.api/user_point/user_charge_04.png)
+![](../img.api/balance/user_charge_04.png)
 
 
 ## 상품 조회
