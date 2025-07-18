@@ -23,7 +23,7 @@
 
 ### Request body
 
-![](../img.api/balance/user_charge_03.png
+![](../img.api/balance/user_charge_03.png)
 
 ### Responses
 
