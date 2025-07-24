@@ -1,4 +1,4 @@
-package kr.hhplus.be.server.interfaces.order.api;
+package kr.hhplus.be.server.order.interfaces.api;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -7,6 +7,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import kr.hhplus.be.server.order.application.dto.request.OrderRequest;
+import kr.hhplus.be.server.order.application.dto.response.OrderResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -19,5 +21,5 @@ public interface OrderApiSpec {
             @ApiResponse(responseCode = "200", description = "조회 성공",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = OrderResponse.class)))
     })
-    ResponseEntity<OrderResponse> order(@RequestBody @Valid OrderRequest request);
+    ResponseEntity<OrderResponse.OrderDetailResponse> order(@RequestBody @Valid OrderRequest.OrderCreateRequest request);
 }
