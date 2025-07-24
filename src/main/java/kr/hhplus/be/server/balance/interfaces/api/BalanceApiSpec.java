@@ -1,4 +1,4 @@
-package kr.hhplus.be.server.interfaces.balance.api;
+package kr.hhplus.be.server.balance.interfaces.api;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -8,6 +8,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
+import kr.hhplus.be.server.balance.application.dto.request.BalanceRequest;
+import kr.hhplus.be.server.balance.application.dto.response.BalanceResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -29,5 +31,5 @@ public interface BalanceApiSpec {
             @ApiResponse(responseCode = "200", description = "포인트 충전 성공",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = BalanceResponse.class)))
     })
-    ResponseEntity<BalanceResponse> charge(@RequestParam @Positive Long id, @RequestBody @Valid BalanceRequest request);
+    ResponseEntity<BalanceResponse> charge(@RequestBody @Valid BalanceRequest.BalanceChargeRequest request);
 }
