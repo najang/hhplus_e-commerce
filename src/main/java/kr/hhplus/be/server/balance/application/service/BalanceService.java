@@ -34,7 +34,7 @@ public class BalanceService {
     }
 
     @Transactional
-    public Balance use(BalanceCommand.PointUseCommand command) {
+    public Balance use(BalanceCommand.BalanceUseCommand command) {
 
         Balance point = findByUserId(command.userId());
         point.use(command.amount());

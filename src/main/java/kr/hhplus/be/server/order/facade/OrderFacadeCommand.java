@@ -41,8 +41,8 @@ public class OrderFacadeCommand {
             return OrderCommand.OrderCreateCommand.of(userId, orderProductCreateCommands);
         }
 
-        public BalanceCommand.PointUseCommand toPointUseCommand(OrderInfo orderInfo) {
-            return BalanceCommand.PointUseCommand.of(userId, orderInfo.order().getId(), orderInfo.getTotalAmount());
+        public BalanceCommand.BalanceUseCommand toBalanceUseCommand(OrderInfo orderInfo) {
+            return BalanceCommand.BalanceUseCommand.of(userId, orderInfo.order().getId(), orderInfo.getTotalAmount());
         }
 
         public CouponCommand.CouponApplyCommand toCouponApplyCommand(OrderInfo orderInfo) {

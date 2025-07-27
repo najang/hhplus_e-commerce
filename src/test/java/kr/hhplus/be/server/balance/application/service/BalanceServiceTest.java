@@ -119,7 +119,7 @@ class BalanceServiceTest {
             when(balanceRepository.findByUserId(1L))
                     .thenReturn(Balance.of(1L, 1L, Amount.of(1000)));
 
-            BalanceCommand.PointUseCommand command = new BalanceCommand.PointUseCommand(1L, 1L, 1000);
+            BalanceCommand.BalanceUseCommand command = new BalanceCommand.BalanceUseCommand(1L, 1L, 1000);
 
             //when
             balanceService.use(command);
@@ -135,7 +135,7 @@ class BalanceServiceTest {
             when(balanceRepository.findByUserId(1L))
                     .thenReturn(Balance.of(1L, 1L, Amount.of(1000)));
 
-            BalanceCommand.PointUseCommand command = new BalanceCommand.PointUseCommand(1L, 1L,1000);
+            BalanceCommand.BalanceUseCommand command = new BalanceCommand.BalanceUseCommand(1L, 1L,1000);
 
             //when
             balanceService.use(command);
@@ -151,7 +151,7 @@ class BalanceServiceTest {
             when(balanceRepository.findByUserId(1L))
                     .thenReturn(Balance.of(1L, 1L, Amount.of(1000)));
 
-            BalanceCommand.PointUseCommand command = new BalanceCommand.PointUseCommand(1L, 1L, 2000);
+            BalanceCommand.BalanceUseCommand command = new BalanceCommand.BalanceUseCommand(1L, 1L, 2000);
 
             //when, then
             assertThatThrownBy(() -> balanceService.use(command))
@@ -167,7 +167,7 @@ class BalanceServiceTest {
             when(balanceRepository.findByUserId(1L))
                     .thenReturn(Balance.of(1L, 1L, Amount.of(1000)));
 
-            BalanceCommand.PointUseCommand command = new BalanceCommand.PointUseCommand(1L, 1L, 1000);
+            BalanceCommand.BalanceUseCommand command = new BalanceCommand.BalanceUseCommand(1L, 1L, 1000);
 
             //when
             Balance result = balanceService.use(command);

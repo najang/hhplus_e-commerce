@@ -39,7 +39,7 @@ public class OrderFacadeService {
             orderInfo.applyDiscount(discountAmount);
         }
 
-        balanceService.use(command.toPointUseCommand(orderInfo));
+        balanceService.use(command.toBalanceUseCommand(orderInfo));
 
         return OrderResult.OrderCreateResult.from(orderInfo);
     }
