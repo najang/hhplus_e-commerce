@@ -3,7 +3,9 @@ package kr.hhplus.be.server.balance.domain.entity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
+import kr.hhplus.be.server.balance.application.exception.BalanceErrorCode;
 import kr.hhplus.be.server.balance.domain.TransactionType;
+import kr.hhplus.be.server.common.exception.CustomException;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 
@@ -48,13 +50,13 @@ public class PointHistory {
     public PointHistory(Long id, long pointId, Long orderId, Amount amount, TransactionType type, LocalDateTime createdAt) {
 
         if (pointId < 0) {
-            throw new IllegalArgumentException("포인트식별자는 음수일 수 없습니다.");
+            throw new CustomException(BalanceErrorCode.	INVALID_NEGATIVE_POINT_ID);
         }
         if (amount == null) {
-            throw new IllegalArgumentException("금액 정보가 필요합니다.");
+            throw new CustomException(BalanceErrorCode.	AMOUNT_INFORMATION_REQUIRED);
         }
         if (type == null) {
-            throw new IllegalArgumentException("거래 타입 정보가 필요합니다.");
+            throw new CustomException(BalanceErrorCode.	TRANSACTION_TYPE_INFORMATION_REQUIRED);
         }
 
         this.id = id;

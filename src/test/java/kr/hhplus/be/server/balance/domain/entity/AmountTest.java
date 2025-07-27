@@ -1,5 +1,7 @@
 package kr.hhplus.be.server.balance.domain.entity;
 
+import kr.hhplus.be.server.balance.application.exception.BalanceErrorCode;
+import kr.hhplus.be.server.common.exception.CustomException;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -14,12 +16,12 @@ class AmountTest {
 
         @ParameterizedTest
         @ValueSource(ints = {-1000, -100, -10, -3, -2, -1})
-        void 금액이_음수면_IllegalArgumentException_발생(int value) {
+        void 금액이_음수면_CustomException_발생(int value) {
 
             //when, then
             assertThatThrownBy(() -> Amount.of(value))
-                    .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessageContaining("금액은 음수일 수 없습니다.");
+                    .isInstanceOf(CustomException.class)
+                    .hasMessageContaining(BalanceErrorCode.INVALID_NEGATIVE_AMOUNT.getMessage());
         }
     }
 

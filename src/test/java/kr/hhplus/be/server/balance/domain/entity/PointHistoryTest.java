@@ -1,6 +1,8 @@
 package kr.hhplus.be.server.balance.domain.entity;
 
+import kr.hhplus.be.server.balance.application.exception.BalanceErrorCode;
 import kr.hhplus.be.server.balance.domain.TransactionType;
+import kr.hhplus.be.server.common.exception.CustomException;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -18,32 +20,32 @@ class PointHistoryTest {
 
         @ParameterizedTest
         @ValueSource(longs = {-1000L, -100L, -10L, -3L, -2L, -1L})
-        void 포인트식별자가_음수면_IllegalArgumentException_발생(long pointId) {
+        void 포인트식별자가_음수면_CustomException_발생(long pointId) {
 
             //when, then
             assertThatThrownBy(() -> new PointHistory(1L, pointId, 1L, Amount.of(1000), TransactionType.CHARGE, LocalDateTime.now()))
-                    .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessageContaining("포인트식별자는 음수일 수 없습니다.");
+                    .isInstanceOf(CustomException.class)
+                    .hasMessageContaining(BalanceErrorCode.INVALID_NEGATIVE_POINT_ID.getMessage());
         }
 
         @ParameterizedTest
         @NullSource
-        void 금액이_null_이면_IllegalArgumentException_발생(Amount amount) {
+        void 금액이_null_이면_CustomException_발생(Amount amount) {
 
             //when, then
             assertThatThrownBy(() -> new PointHistory(1L, 1L, 1L, amount, TransactionType.CHARGE, LocalDateTime.now()))
-                    .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessageContaining("금액 정보가 필요합니다.");
+                    .isInstanceOf(CustomException.class)
+                    .hasMessageContaining(BalanceErrorCode.AMOUNT_INFORMATION_REQUIRED.getMessage());
         }
 
         @ParameterizedTest
         @NullSource
-        void 거래_타입이_null_이면_IllegalArgumentException_발생(TransactionType type) {
+        void 거래_타입이_null_이면_CustomException_발생(TransactionType type) {
 
             //when, then
             assertThatThrownBy(() -> new PointHistory(1L, 1L, 1L, Amount.of(1000), type, LocalDateTime.now()))
-                    .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessageContaining("거래 타입 정보가 필요합니다.");
+                    .isInstanceOf(CustomException.class)
+                    .hasMessageContaining(BalanceErrorCode.TRANSACTION_TYPE_INFORMATION_REQUIRED.getMessage());
         }
     }
 

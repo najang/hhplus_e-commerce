@@ -5,6 +5,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import kr.hhplus.be.server.balance.application.exception.BalanceErrorCode;
+import kr.hhplus.be.server.common.exception.CustomException;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -37,10 +39,10 @@ public class Balance {
     public Balance(Long id, long userId, Amount amount, LocalDateTime updatedAt) {
 
         if (userId < 0) {
-            throw new IllegalArgumentException("유저식별자는 음수일 수 없습니다.");
+            throw new CustomException(BalanceErrorCode.INVALID_NEGATIVE_USER_ID);
         }
         if (amount == null) {
-            throw new IllegalArgumentException("잔액 정보가 필요합니다.");
+            throw new CustomException(BalanceErrorCode.BALANCE_INFORMATION_REQUIRED);
         }
 
         this.id = id;
@@ -56,7 +58,7 @@ public class Balance {
     public void charge(int value) {
 
         if (amount.getValue() + value > MAX_POINT_LIMIT) {
-            throw new IllegalArgumentException("최대 한도를 초과하여 충전할 수 없습니다.");
+            throw new CustomException(BalanceErrorCode.RECHARGE_LIMIT_EXCEEDED);
         }
 
         this.amount = this.amount.add(value);
@@ -65,7 +67,7 @@ public class Balance {
     public void use(int value) {
 
         if (amount.getValue() - value < 0) {
-            throw new IllegalArgumentException("잔액이 부족합니다.");
+            throw new CustomException(BalanceErrorCode.INSUFFICIENT_BALANCE);
         }
 
         this.amount = this.amount.sub(value);
