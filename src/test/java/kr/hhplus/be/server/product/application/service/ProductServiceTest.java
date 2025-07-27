@@ -6,7 +6,7 @@ import kr.hhplus.be.server.product.application.command.ProductCommand;
 import kr.hhplus.be.server.product.domain.entity.Product;
 import kr.hhplus.be.server.product.domain.entity.Stock;
 import kr.hhplus.be.server.product.domain.repository.ProductRepository;
-import kr.hhplus.be.server.product.exception.ProductErrorCode;
+import kr.hhplus.be.server.product.application.exception.ProductErrorCode;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

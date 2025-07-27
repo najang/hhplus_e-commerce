@@ -2,7 +2,7 @@ package kr.hhplus.be.server.product.domain.entity;
 
 import jakarta.persistence.Embeddable;
 import kr.hhplus.be.server.common.exception.CustomException;
-import kr.hhplus.be.server.product.exception.ProductErrorCode;
+import kr.hhplus.be.server.product.application.exception.ProductErrorCode;
 import lombok.Getter;
 
 @Embeddable

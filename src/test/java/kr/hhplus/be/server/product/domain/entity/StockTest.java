@@ -1,7 +1,7 @@
 package kr.hhplus.be.server.product.domain.entity;
 
 import kr.hhplus.be.server.common.exception.CustomException;
-import kr.hhplus.be.server.product.exception.ProductErrorCode;
+import kr.hhplus.be.server.product.application.exception.ProductErrorCode;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;

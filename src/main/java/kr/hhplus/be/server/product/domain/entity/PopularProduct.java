@@ -6,7 +6,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import kr.hhplus.be.server.common.exception.CustomException;
 import kr.hhplus.be.server.order.domain.entity.OrderProduct;
-import kr.hhplus.be.server.product.exception.ProductErrorCode;
+import kr.hhplus.be.server.product.application.exception.ProductErrorCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
