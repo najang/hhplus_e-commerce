@@ -1,8 +1,10 @@
 package kr.hhplus.be.server.coupon.domain.entity;
 
 import jakarta.persistence.*;
+import kr.hhplus.be.server.common.exception.CustomException;
 import kr.hhplus.be.server.coupon.domain.DiscountType;
 import kr.hhplus.be.server.coupon.domain.policy.DiscountPolicy;
+import kr.hhplus.be.server.coupon.exception.CouponErrorCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
@@ -40,22 +42,22 @@ public class CouponIssue {
     public CouponIssue(Long id, long couponId, String couponName, DiscountType discountType, int discountValue, long userId, LocalDateTime expiredAt, boolean isUsed, LocalDateTime issuedAt) {
 
         if(couponId < 0) {
-            throw new IllegalArgumentException("쿠폰식별자는 음수일 수 없습니다.");
+            throw new CustomException(CouponErrorCode.INVALID_NEGATIVE_COUPON_ID);
         }
         if(!StringUtils.hasText(couponName)) {
-            throw new IllegalArgumentException("쿠폰명을 입력해주세요.");
+            throw new CustomException(CouponErrorCode.COUPON_NAME_REQUIRED);
         }
         if(discountType == null) {
-            throw new IllegalArgumentException("할인 타입 정보가 필요합니다.");
+            throw new CustomException(CouponErrorCode.DISCOUNT_TYPE_INFORMATION_REQUIRED);
         }
         if(discountValue <= 0) {
-            throw new IllegalArgumentException("할인율/금액은 양수여야 합니다.");
+            throw new CustomException(CouponErrorCode.DISCOUNT_VALUE_MUST_BE_POSITIVE);
         }
         if(userId < 0) {
-            throw new IllegalArgumentException("유저식별자는 음수일 수 없습니다.");
+            throw new CustomException(CouponErrorCode.INVALID_NEGATIVE_USER_ID);
         }
         if(expiredAt == null) {
-            throw new IllegalArgumentException("만료 일시 정보가 필요합니다.");
+            throw new CustomException(CouponErrorCode.EXPIRATION_DATETIME_REQUIRED);
         }
 
         this.id = id;
@@ -72,7 +74,7 @@ public class CouponIssue {
     public int applyDiscount(int totalAmount) {
 
         if (isUsed || expiredAt.isBefore(LocalDateTime.now())) {
-            throw new RuntimeException("사용할 수 없는 쿠폰입니다.");
+            throw new CustomException(CouponErrorCode.COUPON_NOT_USABLE);
         }
         this.isUsed = true;
         DiscountPolicy discountPolicy = discountType.getDiscountPolicy(discountValue);

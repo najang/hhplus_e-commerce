@@ -1,5 +1,8 @@
 package kr.hhplus.be.server.coupon.domain.policy;
 
+import kr.hhplus.be.server.common.exception.CustomException;
+import kr.hhplus.be.server.coupon.exception.CouponErrorCode;
+
 public class RateDiscountPolicy implements DiscountPolicy {
 
     private final int discountRate;
@@ -7,7 +10,7 @@ public class RateDiscountPolicy implements DiscountPolicy {
     public RateDiscountPolicy(int discountRate) {
 
         if (discountRate < 0 || discountRate > 100) {
-            throw new IllegalArgumentException("할인율은 0 이상 100 이하여야 합니다.");
+            throw new CustomException(CouponErrorCode.INVALID_DISCOUNT_RATE_RANGE);
         }
 
         this.discountRate = discountRate;

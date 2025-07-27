@@ -1,10 +1,12 @@
 package kr.hhplus.be.server.Coupon.application.service;
 
+import kr.hhplus.be.server.common.exception.CustomException;
 import kr.hhplus.be.server.coupon.application.service.CouponService;
 import kr.hhplus.be.server.coupon.command.CouponCommand;
 import kr.hhplus.be.server.coupon.domain.DiscountType;
 import kr.hhplus.be.server.coupon.domain.entity.CouponIssue;
 import kr.hhplus.be.server.coupon.domain.repository.CouponRepository;
+import kr.hhplus.be.server.coupon.exception.CouponErrorCode;
 import kr.hhplus.be.server.order.domain.entity.Order;
 import kr.hhplus.be.server.order.domain.entity.OrderAmountInfo;
 import kr.hhplus.be.server.order.domain.entity.OrderStatus;
@@ -75,7 +77,7 @@ class CouponServiceTest {
         }
 
         @Test
-        void 유저_쿠폰_발급_조회_실패_시_RuntimeException_발생() {
+        void 유저_쿠폰_발급_조회_실패_시_CustomException_발생() {
 
             //given
             when(couponRepository.findByUserIdAndCouponId(1L, 1L))
@@ -87,8 +89,8 @@ class CouponServiceTest {
 
             //when, then
             assertThatThrownBy(() -> couponService.applyCoupon(command))
-                    .isInstanceOf(RuntimeException.class)
-                    .hasMessageContaining("해당 쿠폰을 보유하고 있지 않습니다.");
+                    .isInstanceOf(CustomException.class)
+                    .hasMessageContaining(CouponErrorCode.COUPON_NOT_OWNED_BY_USER.getMessage());
         }
     }
 }

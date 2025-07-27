@@ -1,7 +1,9 @@
 package kr.hhplus.be.server.Coupon.domain.policy;
 
+import kr.hhplus.be.server.common.exception.CustomException;
 import kr.hhplus.be.server.coupon.domain.policy.DiscountPolicy;
 import kr.hhplus.be.server.coupon.domain.policy.FixedDiscountPolicy;
+import kr.hhplus.be.server.coupon.exception.CouponErrorCode;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -16,12 +18,12 @@ class FixedDiscountPolicyTest {
 
         @ParameterizedTest
         @ValueSource(ints = {-10000, -100, -3, -2, -1})
-        void 할인금액이_음수면_IllegalArgumentException_발생(int discountAmount) {
+        void 할인금액이_음수면_CustomException_발생(int discountAmount) {
 
             //when, then
             assertThatThrownBy(() -> new FixedDiscountPolicy(discountAmount))
-                    .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessageContaining("할인 금액은 음수일 수 없습니다.");
+                    .isInstanceOf(CustomException.class)
+                    .hasMessageContaining(CouponErrorCode.INVALID_NEGATIVE_DISCOUNT_AMOUNT.getMessage());
         }
     }
 

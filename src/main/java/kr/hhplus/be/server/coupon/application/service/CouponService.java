@@ -1,8 +1,10 @@
 package kr.hhplus.be.server.coupon.application.service;
 
+import kr.hhplus.be.server.common.exception.CustomException;
 import kr.hhplus.be.server.coupon.command.CouponCommand;
 import kr.hhplus.be.server.coupon.domain.entity.CouponIssue;
 import kr.hhplus.be.server.coupon.domain.repository.CouponRepository;
+import kr.hhplus.be.server.coupon.exception.CouponErrorCode;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,7 +27,7 @@ public class CouponService {
     public int applyCoupon(CouponCommand.CouponApplyCommand command) {
 
         CouponIssue couponIssue = couponRepository.findByUserIdAndCouponId(command.getUserId(), command.couponId())
-                .orElseThrow(() -> new RuntimeException("해당 쿠폰을 보유하고 있지 않습니다."));
+                .orElseThrow(() -> new CustomException(CouponErrorCode.COUPON_NOT_OWNED_BY_USER));
 
         return couponIssue.applyDiscount(command.getTotalAmount());
     }

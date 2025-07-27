@@ -1,5 +1,8 @@
 package kr.hhplus.be.server.coupon.domain.policy;
 
+import kr.hhplus.be.server.common.exception.CustomException;
+import kr.hhplus.be.server.coupon.exception.CouponErrorCode;
+
 public class FixedDiscountPolicy implements DiscountPolicy {
 
     private final int discountAmount;
@@ -7,7 +10,7 @@ public class FixedDiscountPolicy implements DiscountPolicy {
     public FixedDiscountPolicy(int discountAmount) {
 
         if (discountAmount < 0) {
-            throw new IllegalArgumentException("할인 금액은 음수일 수 없습니다.");
+            throw new CustomException(CouponErrorCode.INVALID_NEGATIVE_DISCOUNT_AMOUNT);
         }
 
         this.discountAmount = discountAmount;

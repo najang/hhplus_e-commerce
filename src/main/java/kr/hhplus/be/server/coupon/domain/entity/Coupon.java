@@ -1,7 +1,9 @@
 package kr.hhplus.be.server.coupon.domain.entity;
 
 import jakarta.persistence.*;
+import kr.hhplus.be.server.common.exception.CustomException;
 import kr.hhplus.be.server.coupon.domain.DiscountType;
+import kr.hhplus.be.server.coupon.exception.CouponErrorCode;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -39,19 +41,19 @@ public class Coupon {
     public Coupon(Long id, String couponName, DiscountType discountType, int discountValue, LocalDateTime validTo, LocalDateTime validFrom, int count, LocalDateTime createdAt, LocalDateTime updatedAt) {
 
         if (!StringUtils.hasText(couponName)) {
-            throw new IllegalArgumentException("쿠폰명을 입력해주세요.");
+            throw new CustomException(CouponErrorCode.COUPON_NAME_REQUIRED);
         }
         if (discountType == null) {
-            throw new IllegalArgumentException("할인 타입 정보가 필요합니다.");
+            throw new CustomException(CouponErrorCode.DISCOUNT_TYPE_INFORMATION_REQUIRED);
         }
         if (discountValue <= 0) {
-            throw new IllegalArgumentException("할인율/금액은 양수여야 합니다.");
+            throw new CustomException(CouponErrorCode.DISCOUNT_VALUE_MUST_BE_POSITIVE);
         }
         if (validTo == null || validFrom == null) {
-            throw new IllegalArgumentException("쿠폰 유효 기간을 입력해주세요.");
+            throw new CustomException(CouponErrorCode.COUPON_VALID_PERIOD_REQUIRED);
         }
         if (count <= 0) {
-            throw new IllegalArgumentException("쿠폰 수량은 양수여야 합니다.");
+            throw new CustomException(CouponErrorCode.COUPON_QUANTITY_MUST_BE_POSITIVE);
         }
 
         this.id = id;

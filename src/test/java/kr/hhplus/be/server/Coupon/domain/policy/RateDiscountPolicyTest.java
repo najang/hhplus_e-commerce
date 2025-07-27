@@ -1,8 +1,10 @@
 package kr.hhplus.be.server.Coupon.domain.policy;
 
+import kr.hhplus.be.server.common.exception.CustomException;
 import kr.hhplus.be.server.coupon.domain.policy.DiscountPolicy;
 import kr.hhplus.be.server.coupon.domain.policy.FixedDiscountPolicy;
 import kr.hhplus.be.server.coupon.domain.policy.RateDiscountPolicy;
+import kr.hhplus.be.server.coupon.exception.CouponErrorCode;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -18,12 +20,12 @@ class RateDiscountPolicyTest {
 
         @ParameterizedTest
         @ValueSource(ints = {-10000, -100, -3, -2, -1, 101, 102, 103, 200})
-        void 할인금액이_0미만이거나_100초과면_IllegalArgumentException_발생(int discountRate) {
+        void 할인금액이_0미만이거나_100초과면_CustomException_발생(int discountRate) {
 
             //when, then
             assertThatThrownBy(() -> new RateDiscountPolicy(discountRate))
-                    .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessageContaining("할인율은 0 이상 100 이하여야 합니다.");
+                    .isInstanceOf(CustomException.class)
+                    .hasMessageContaining(CouponErrorCode.INVALID_DISCOUNT_RATE_RANGE.getMessage());
         }
     }
 
