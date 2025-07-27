@@ -4,7 +4,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import kr.hhplus.be.server.common.exception.CustomException;
 import kr.hhplus.be.server.order.domain.entity.OrderProduct;
+import kr.hhplus.be.server.product.exception.ProductErrorCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
@@ -43,16 +45,16 @@ public class PopularProduct {
     public PopularProduct(Long id, long productId, int price, LocalDate orderDate, int orderCount, LocalDateTime createdAt) {
 
         if (productId < 0) {
-            throw new IllegalArgumentException("상품식별자는 음수일 수 없습니다.");
+            throw new CustomException(ProductErrorCode.INVALID_NEGATIVE_PRODUCT_ID);
         }
         if (price < 0) {
-            throw new IllegalArgumentException("상품 가격은 음수일 수 없습니다.");
+            throw new CustomException(ProductErrorCode.INVALID_NEGATIVE_PRICE);
         }
         if (orderDate == null) {
-            throw new IllegalArgumentException("주문날짜 정보가 필요합니다.");
+            throw new CustomException(ProductErrorCode.ORDER_DATE_INFORMATION_REQUIRED);
         }
         if (orderCount < 0) {
-            throw new IllegalArgumentException("주문 수량은 음수일 수 없습니다.");
+            throw new CustomException(ProductErrorCode.INVALID_NEGATIVE_ORDER_QUANTITY);
         }
 
         this.id = id;

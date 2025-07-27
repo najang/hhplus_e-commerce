@@ -1,10 +1,12 @@
 package kr.hhplus.be.server.product.application.service;
 
+import kr.hhplus.be.server.common.exception.CustomException;
 import kr.hhplus.be.server.order.domain.entity.OrderProduct;
 import kr.hhplus.be.server.product.application.command.ProductCommand;
 import kr.hhplus.be.server.product.domain.entity.PopularProduct;
 import kr.hhplus.be.server.product.domain.entity.Product;
 import kr.hhplus.be.server.product.domain.repository.ProductRepository;
+import kr.hhplus.be.server.product.exception.ProductErrorCode;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,7 +29,7 @@ public class ProductService {
     @Transactional(readOnly = true)
     public Product findById(Long id) {
         return productRepository.findById(id).orElseThrow(() -> {
-            throw new RuntimeException("상품을 찾을 수 없습니다.");
+            throw new CustomException(ProductErrorCode.PRODUCT_NOT_FOUND);
         });
     }
 

@@ -5,6 +5,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import kr.hhplus.be.server.common.exception.CustomException;
+import kr.hhplus.be.server.product.exception.ProductErrorCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
@@ -42,13 +44,13 @@ public class Product {
 
 
         if (!StringUtils.hasText(name)) {
-            throw new IllegalArgumentException("상품명을 입력해주세요.");
+            throw new CustomException(ProductErrorCode.PRODUCT_NAME_REQUIRED);
         }
         if (stock == null) {
-            throw new IllegalArgumentException("재고 정보가 필요합니다.");
+            throw new CustomException(ProductErrorCode.STOCK_INFORMATION_REQUIRED);
         }
         if (price < 0) {
-            throw new IllegalArgumentException("가격은 음수가 될 수 없습니다.");
+            throw new CustomException(ProductErrorCode.INVALID_NEGATIVE_PRICE);
         }
 
         this.id = id;

@@ -1,5 +1,7 @@
 package kr.hhplus.be.server.product.domain.entity;
 
+import kr.hhplus.be.server.common.exception.CustomException;
+import kr.hhplus.be.server.product.exception.ProductErrorCode;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -12,12 +14,12 @@ class StockTest {
 
         @ParameterizedTest
         @ValueSource(ints = {-1000, -100, -10, -3, -2, -1})
-        void 재고가_음수이면_IllegalArgumentException_발생(int count) {
+        void 재고가_음수이면_CustomException_발생(int count) {
 
             //when, then
             assertThatThrownBy(() -> Stock.of(count))
-                    .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessageContaining("재고가 부족합니다.");
+                    .isInstanceOf(CustomException.class)
+                    .hasMessageContaining(ProductErrorCode.INSUFFICIENT_STOCK.getMessage());
         }
     }
 

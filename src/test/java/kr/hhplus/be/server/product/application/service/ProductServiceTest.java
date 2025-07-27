@@ -1,10 +1,12 @@
 package kr.hhplus.be.server.product.application.service;
 
 
+import kr.hhplus.be.server.common.exception.CustomException;
 import kr.hhplus.be.server.product.application.command.ProductCommand;
 import kr.hhplus.be.server.product.domain.entity.Product;
 import kr.hhplus.be.server.product.domain.entity.Stock;
 import kr.hhplus.be.server.product.domain.repository.ProductRepository;
+import kr.hhplus.be.server.product.exception.ProductErrorCode;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -32,7 +34,7 @@ class ProductServiceTest {
     class 상품_상세_조회 {
 
         @Test
-        void 상품이_존재하지_않는_경우_RuntimeException_발생() {
+        void 상품이_존재하지_않는_경우_CustomException_발생() {
 
             //given
             when(productRepository.findById(1L))
@@ -40,8 +42,8 @@ class ProductServiceTest {
 
             //when, then
             assertThatThrownBy(() -> productService.findById(1L))
-                    .isInstanceOf(RuntimeException.class)
-                    .hasMessageContaining("상품을 찾을 수 없습니다.");
+                    .isInstanceOf(CustomException.class)
+                    .hasMessageContaining(ProductErrorCode.PRODUCT_NOT_FOUND.getMessage());
 
             verify(productRepository, times(1)).findById(1L);
         }
