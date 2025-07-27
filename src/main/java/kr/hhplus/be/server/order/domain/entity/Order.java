@@ -5,6 +5,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import kr.hhplus.be.server.common.exception.CustomException;
+import kr.hhplus.be.server.order.application.exception.OrderErrorCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
@@ -45,13 +47,13 @@ public class Order {
     public Order(Long id, long userId, Long couponIssueId, OrderStatus orderStatus, OrderAmountInfo orderAmountInfo, LocalDateTime createdAt, LocalDateTime updatedAt) {
 
         if (userId < 0) {
-            throw new IllegalArgumentException("유저식별자는 음수일 수 없습니다.");
+            throw new CustomException(OrderErrorCode.INVALID_NEGATIVE_USER_ID);
         }
         if (orderStatus == null) {
-            throw new IllegalArgumentException("주문 상태 정보가 필요합니다.");
+            throw new CustomException(OrderErrorCode.ORDER_STATUS_INFORMATION_REQUIRED);
         }
         if (orderAmountInfo == null) {
-            throw new IllegalArgumentException("주문 가격 정보가 필요합니다.");
+            throw new CustomException(OrderErrorCode.ORDER_PRICE_INFORMATION_REQUIRED);
         }
 
         this.id = id;
@@ -66,7 +68,7 @@ public class Order {
     public void calculateOrderAmount(List<OrderProduct> orderProducts) {
 
         if (orderProducts == null) {
-            throw new IllegalArgumentException("주문 상품 정보가 필요합니다.");
+            throw new CustomException(OrderErrorCode.ORDER_PRODUCT_INFORMATION_REQUIRED);
         }
 
         int itemTotalAmount = orderProducts.stream()

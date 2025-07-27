@@ -1,5 +1,7 @@
 package kr.hhplus.be.server.order.domain.entity;
 
+import kr.hhplus.be.server.common.exception.CustomException;
+import kr.hhplus.be.server.order.application.exception.OrderErrorCode;
 import kr.hhplus.be.server.product.domain.entity.Product;
 import kr.hhplus.be.server.product.domain.entity.Stock;
 import org.junit.jupiter.api.Nested;
@@ -20,32 +22,32 @@ class OrderTest {
 
         @ParameterizedTest
         @ValueSource(longs = {-1000L, -100L, -10L, -3L, -2L, -1L})
-        void 유저식별자가_음수인_경우_IllegalArgumentException_발생(long userId) {
+        void 유저식별자가_음수인_경우_CustomException_발생(long userId) {
 
             //when, then
             assertThatThrownBy(() -> new Order(1L, userId, 1L, OrderStatus.COMPLETE, OrderAmountInfo.of(30000, 50000, 20000), LocalDateTime.now(), LocalDateTime.now()))
-                    .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessageContaining("유저식별자는 음수일 수 없습니다.");
+                    .isInstanceOf(CustomException.class)
+                    .hasMessageContaining(OrderErrorCode.INVALID_NEGATIVE_USER_ID.getMessage());
         }
 
         @ParameterizedTest
         @NullSource
-        void 주문_상태가_null_인_경우_IllegalArgumentException_발생(OrderStatus orderStatus) {
+        void 주문_상태가_null_인_경우_CustomException_발생(OrderStatus orderStatus) {
 
             //when, then
             assertThatThrownBy(() -> new Order(1L, 1L, 1L, orderStatus, OrderAmountInfo.of(30000, 50000, 20000), LocalDateTime.now(), LocalDateTime.now()))
-                    .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessageContaining("주문 상태 정보가 필요합니다.");
+                    .isInstanceOf(CustomException.class)
+                    .hasMessageContaining(OrderErrorCode.ORDER_STATUS_INFORMATION_REQUIRED.getMessage());
         }
 
         @ParameterizedTest
         @NullSource
-        void 주문_가격_정보가_null_인_경우_IllegalArgumentException_발생(OrderAmountInfo orderAmountInfo) {
+        void 주문_가격_정보가_null_인_경우_CustomException_발생(OrderAmountInfo orderAmountInfo) {
 
             //when, then
             assertThatThrownBy(() -> new Order(1L, 1L, 1L, OrderStatus.COMPLETE, orderAmountInfo, LocalDateTime.now(), LocalDateTime.now()))
-                    .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessageContaining("주문 가격 정보가 필요합니다.");
+                    .isInstanceOf(CustomException.class)
+                    .hasMessageContaining(OrderErrorCode.ORDER_PRICE_INFORMATION_REQUIRED.getMessage());
         }
     }
 
@@ -54,15 +56,15 @@ class OrderTest {
 
         @ParameterizedTest
         @NullSource
-        void 주문_상품_정보가_null_인_경우_IllegalArgumentException_발생(List<OrderProduct> orderProducts) {
+        void 주문_상품_정보가_null_인_경우_CustomException_발생(List<OrderProduct> orderProducts) {
 
             //given
             Order order = new Order(1L, 1L, 1L, OrderStatus.COMPLETE, OrderAmountInfo.of(30000, 50000, 20000), LocalDateTime.now(), LocalDateTime.now());
 
             //when, then
             assertThatThrownBy(() -> order.calculateOrderAmount(orderProducts))
-                    .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessageContaining("주문 상품 정보가 필요합니다.");
+                    .isInstanceOf(CustomException.class)
+                    .hasMessageContaining(OrderErrorCode.ORDER_PRODUCT_INFORMATION_REQUIRED.getMessage());
         }
 
         @Test

@@ -1,6 +1,8 @@
 package kr.hhplus.be.server.order.domain.entity;
 
 import jakarta.persistence.Embeddable;
+import kr.hhplus.be.server.common.exception.CustomException;
+import kr.hhplus.be.server.order.application.exception.OrderErrorCode;
 import lombok.Getter;
 
 import java.util.Objects;
@@ -32,16 +34,16 @@ public class OrderAmountInfo {
     public OrderAmountInfo(int totalAmount, int productTotalAmount, int discountAmount) {
 
         if (totalAmount < 0) {
-            throw new IllegalArgumentException("총 가격은 음수일 수 없습니다.");
+            throw new CustomException(OrderErrorCode.INVALID_NEGATIVE_TOTAL_PRICE);
         }
         if (productTotalAmount < 0) {
-            throw new IllegalArgumentException("총 상품 가격은 음수일 수 없습니다.");
+            throw new CustomException(OrderErrorCode.INVALID_NEGATIVE_TOTAL_PRODUCT_PRICE);
         }
         if (discountAmount < 0) {
-            throw new IllegalArgumentException("할인 가격은 음수일 수 없습니다.");
+            throw new CustomException(OrderErrorCode.INVALID_NEGATIVE_DISCOUNT_PRICE);
         }
         if (totalAmount != productTotalAmount - discountAmount) {
-            throw new IllegalArgumentException("가격 계산이 올바르지 않습니다.");
+            throw new CustomException(OrderErrorCode.INVALID_PRICE_CALCULATION);
         }
 
         this.totalAmount = totalAmount;

@@ -4,6 +4,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import kr.hhplus.be.server.common.exception.CustomException;
+import kr.hhplus.be.server.order.application.exception.OrderErrorCode;
 import kr.hhplus.be.server.product.domain.entity.Product;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -35,10 +37,10 @@ public class OrderProduct {
     public static OrderProduct of(Order order, Product product, int count) {
 
         if (order == null) {
-            throw new IllegalArgumentException("주문 정보가 필요합니다.");
+            throw new CustomException(OrderErrorCode.ORDER_INFORMATION_REQUIRED);
         }
         if (product == null) {
-            throw new IllegalArgumentException("상품 정보가 필요합니다.");
+            throw new CustomException(OrderErrorCode.PRODUCT_INFORMATION_REQUIRED);
         }
 
         return new OrderProduct(null, order.getId(), product.getId(), product.getName(), product.getPrice(), count);
@@ -47,19 +49,19 @@ public class OrderProduct {
     public OrderProduct(Long id, long orderId, long itemId, String productName, int sellPrice, int count) {
 
         if (orderId < 0) {
-            throw new IllegalArgumentException("주문식별자는 음수일 수 없습니다.");
+            throw new CustomException(OrderErrorCode.INVALID_NEGATIVE_ORDER_ID);
         }
         if (itemId < 0) {
-            throw new IllegalArgumentException("상품식별자는 음수일 수 없습니다.");
+            throw new CustomException(OrderErrorCode.INVALID_NEGATIVE_PRODUCT_ID);
         }
         if (!StringUtils.hasText(productName)) {
-            throw new IllegalArgumentException("상품명을 입력해주세요.");
+            throw new CustomException(OrderErrorCode.PRODUCT_NAME_REQUIRED);
         }
         if (sellPrice < 0) {
-            throw new IllegalArgumentException("상품 가격은 음수일 수 없습니다.");
+            throw new CustomException(OrderErrorCode.INVALID_NEGATIVE_PRICE);
         }
         if (count <= 0) {
-            throw new IllegalArgumentException("주문 수량은 양수여야 합니다.");
+            throw new CustomException(OrderErrorCode.ORDER_QUANTITY_MUST_BE_POSITIVE);
         }
 
         this.id = id;
