@@ -6,7 +6,7 @@ import kr.hhplus.be.server.coupon.command.CouponCommand;
 import kr.hhplus.be.server.coupon.domain.DiscountType;
 import kr.hhplus.be.server.coupon.domain.entity.CouponIssue;
 import kr.hhplus.be.server.coupon.domain.repository.CouponRepository;
-import kr.hhplus.be.server.coupon.exception.CouponErrorCode;
+import kr.hhplus.be.server.coupon.application.exception.CouponErrorCode;
 import kr.hhplus.be.server.order.domain.entity.Order;
 import kr.hhplus.be.server.order.domain.entity.OrderAmountInfo;
 import kr.hhplus.be.server.order.domain.entity.OrderStatus;

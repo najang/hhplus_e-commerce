@@ -4,7 +4,7 @@ import kr.hhplus.be.server.common.exception.CustomException;
 import kr.hhplus.be.server.coupon.domain.policy.DiscountPolicy;
 import kr.hhplus.be.server.coupon.domain.policy.FixedDiscountPolicy;
 import kr.hhplus.be.server.coupon.domain.policy.RateDiscountPolicy;
-import kr.hhplus.be.server.coupon.exception.CouponErrorCode;
+import kr.hhplus.be.server.coupon.application.exception.CouponErrorCode;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;

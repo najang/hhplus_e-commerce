@@ -3,7 +3,7 @@ package kr.hhplus.be.server.Coupon.domain.entity;
 import kr.hhplus.be.server.common.exception.CustomException;
 import kr.hhplus.be.server.coupon.domain.DiscountType;
 import kr.hhplus.be.server.coupon.domain.entity.CouponIssue;
-import kr.hhplus.be.server.coupon.exception.CouponErrorCode;
+import kr.hhplus.be.server.coupon.application.exception.CouponErrorCode;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;

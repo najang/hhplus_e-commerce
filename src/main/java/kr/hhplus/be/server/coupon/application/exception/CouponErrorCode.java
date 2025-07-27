@@ -1,4 +1,4 @@
-package kr.hhplus.be.server.coupon.exception;
+package kr.hhplus.be.server.coupon.application.exception;
 
 import kr.hhplus.be.server.common.exception.BaseErrorCode;
 import lombok.Getter;

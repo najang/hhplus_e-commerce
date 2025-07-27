@@ -1,7 +1,7 @@
 package kr.hhplus.be.server.coupon.domain.policy;
 
 import kr.hhplus.be.server.common.exception.CustomException;
-import kr.hhplus.be.server.coupon.exception.CouponErrorCode;
+import kr.hhplus.be.server.coupon.application.exception.CouponErrorCode;
 
 public class RateDiscountPolicy implements DiscountPolicy {
 
