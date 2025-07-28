@@ -1,8 +1,6 @@
-package kr.hhplus.be.server.Coupon.domain.policy;
+package kr.hhplus.be.server.coupon.domain.policy;
 
 import kr.hhplus.be.server.common.exception.CustomException;
-import kr.hhplus.be.server.coupon.domain.policy.DiscountPolicy;
-import kr.hhplus.be.server.coupon.domain.policy.FixedDiscountPolicy;
 import kr.hhplus.be.server.coupon.application.exception.CouponErrorCode;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;

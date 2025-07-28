@@ -1,7 +1,7 @@
 package kr.hhplus.be.server.order.facade;
 
 import kr.hhplus.be.server.balance.application.command.BalanceCommand;
-import kr.hhplus.be.server.coupon.command.CouponCommand;
+import kr.hhplus.be.server.coupon.application.command.CouponCommand;
 import kr.hhplus.be.server.order.application.command.OrderCommand;
 import kr.hhplus.be.server.order.domain.entity.OrderInfo;
 import kr.hhplus.be.server.product.application.command.ProductCommand;
@@ -27,6 +27,12 @@ public class OrderFacadeCommand {
         public List<ProductCommand.StockDecreaseCommand> toStockDecreaseCommands() {
             return orderProducts.stream()
                     .map(OrderProductCreateFacadeCommand::toStockDecreaseCommand)
+                    .toList();
+        }
+
+        public List<ProductCommand.StockIncreaseCommand> toStockIncreaseCommands() {
+            return orderProducts.stream()
+                    .map(OrderProductCreateFacadeCommand::toStockIncreaseCommand)
                     .toList();
         }
 
@@ -61,6 +67,10 @@ public class OrderFacadeCommand {
 
         public ProductCommand.StockDecreaseCommand toStockDecreaseCommand() {
             return ProductCommand.StockDecreaseCommand.of(productId, count);
+        }
+
+        public ProductCommand.StockIncreaseCommand toStockIncreaseCommand() {
+            return ProductCommand.StockIncreaseCommand.of(productId, count);
         }
 
         public OrderCommand.OrderProductCreateCommand toOrderProductCreateCommand(Product product) {

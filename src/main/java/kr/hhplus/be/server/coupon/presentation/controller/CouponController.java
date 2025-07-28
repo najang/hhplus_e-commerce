@@ -35,6 +35,8 @@ public class CouponController implements CouponApiSpec {
     @Override
     @PostMapping("/issue")
     public ResponseEntity<CouponResponse.UserCouponResponse> issueCoupon(@RequestBody @Valid CouponRequest.CouponIssueRequest request) {
-        return ResponseEntity.ok(new CouponResponse.UserCouponResponse(1L, "쿠폰1", "2025-12-31", false));
+        CouponResponse.UserCouponResponse response = CouponResponse.UserCouponResponse.from(couponService.issueCoupon(request.toCommand()));
+        return ResponseEntity.ok(response);
     }
+
 }

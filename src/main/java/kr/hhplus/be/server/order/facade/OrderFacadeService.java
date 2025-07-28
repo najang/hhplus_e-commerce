@@ -29,18 +29,26 @@ public class OrderFacadeService {
 
     @Transactional
     public OrderResult.OrderCreateResult placeOrder(OrderFacadeCommand.OrderCreateFacadeCommand command) {
+        List<Product> products = null;
 
-        List<Product> products = productService.decreaseStocks(command.toStockDecreaseCommands());
+        try {
+            products = productService.decreaseStocks(command.toStockDecreaseCommands());
 
-        OrderInfo orderInfo = orderService.createOrder(command.toOrderCreateCommand(products));
+            OrderInfo orderInfo = orderService.createOrder(command.toOrderCreateCommand(products));
 
-        if (command.couponId() != null) {
-            int discountAmount = couponService.applyCoupon(command.toCouponApplyCommand(orderInfo));
-            orderInfo.applyDiscount(discountAmount);
+            if (command.couponId() != null) {
+                int discountAmount = couponService.applyCoupon(command.toCouponApplyCommand(orderInfo));
+                orderInfo.applyDiscount(discountAmount);
+            }
+
+            balanceService.use(command.toBalanceUseCommand(orderInfo));
+
+            return OrderResult.OrderCreateResult.from(orderInfo);
+        } catch (Exception e) {
+            if(products != null) {
+                productService.increaseStocks(command.toStockIncreaseCommands());
+            }
+            throw e;
         }
-
-        balanceService.use(command.toBalanceUseCommand(orderInfo));
-
-        return OrderResult.OrderCreateResult.from(orderInfo);
     }
 }

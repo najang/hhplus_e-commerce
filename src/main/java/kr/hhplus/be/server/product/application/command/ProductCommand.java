@@ -9,4 +9,13 @@ public class ProductCommand {
             return new StockDecreaseCommand(productId, count);
         }
     }
+
+    public record StockIncreaseCommand(
+            long productId,
+            int count
+    ) {
+        public static StockIncreaseCommand of(long productId, int count) {
+            return new StockIncreaseCommand(productId, count);
+        }
+    }
 }
