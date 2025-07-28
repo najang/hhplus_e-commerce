@@ -2,6 +2,7 @@ package kr.hhplus.be.server.coupon.application.dto.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Positive;
+import kr.hhplus.be.server.coupon.application.command.CouponCommand;
 
 
 public class CouponRequest {
@@ -15,5 +16,8 @@ public class CouponRequest {
             @Positive
             long couponId
     ) {
+        public CouponCommand.CouponIssueCommand toCommand() {
+            return CouponCommand.CouponIssueCommand.of(userId, couponId);
+        }
     }
 }

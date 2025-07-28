@@ -1,0 +1,213 @@
+package kr.hhplus.be.server.coupon.application.service;
+
+import kr.hhplus.be.server.common.exception.CustomException;
+import kr.hhplus.be.server.coupon.application.command.CouponCommand;
+import kr.hhplus.be.server.coupon.domain.DiscountType;
+import kr.hhplus.be.server.coupon.domain.entity.Coupon;
+import kr.hhplus.be.server.coupon.domain.entity.CouponIssue;
+import kr.hhplus.be.server.coupon.domain.repository.CouponRepository;
+import kr.hhplus.be.server.coupon.application.exception.CouponErrorCode;
+import kr.hhplus.be.server.order.domain.entity.Order;
+import kr.hhplus.be.server.order.domain.entity.OrderAmountInfo;
+import kr.hhplus.be.server.order.domain.entity.OrderStatus;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
+
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.Mockito.*;
+
+@ExtendWith(MockitoExtension.class)
+class CouponServiceTest {
+
+    @Mock
+    CouponRepository couponRepository;
+    @InjectMocks
+    CouponService couponService;
+
+    @Nested
+    class 유저_보유_쿠폰_목록_조회 {
+
+        @Test
+        void 유저_쿠폰_발급_내역_조회_레포지토리_1회_호출() {
+
+            //given
+            when(couponRepository.findByUserId(1L))
+                    .thenReturn(List.of(
+                            new CouponIssue(1L, 1L, "쿠폰명1", DiscountType.FIXED, 10000, 1L, LocalDateTime.MAX, false, LocalDateTime.now()),
+                            new CouponIssue(2L, 2L, "쿠폰명2", DiscountType.RATE, 100, 1L, LocalDateTime.MAX, false, LocalDateTime.now())
+                    ));
+
+            //when
+            couponService.findByUserId(1L);
+
+            //then
+            verify(couponRepository, times(1)).findByUserId(1L);
+        }
+    }
+
+    @Nested
+    class 쿠폰_할인_적용 {
+
+        @Test
+        void 유저_쿠폰_발급_조회_레포지토리_1회_호출() {
+
+            //given
+            CouponIssue couponIssue = new CouponIssue(1L, 1L, "쿠폰명1", DiscountType.FIXED, 10000, 1L, LocalDateTime.MAX, false, LocalDateTime.now());
+
+            when(couponRepository.findByUserIdAndCouponId(1L, 1L))
+                    .thenReturn(Optional.of(couponIssue));
+
+            Order order = new Order(1L, 1L, 1L, OrderStatus.COMPLETE, OrderAmountInfo.of(30000, 50000, 20000), LocalDateTime.now(), LocalDateTime.now());
+
+            CouponCommand.CouponApplyCommand command = CouponCommand.CouponApplyCommand.of(order, 1L);
+
+            //when
+            couponService.applyCoupon(command);
+
+            //then
+            verify(couponRepository, times(1)).findByUserIdAndCouponId(1L, 1L);
+        }
+
+        @Test
+        void 유저_쿠폰_발급_조회_실패_시_CustomException_발생() {
+
+            //given
+            when(couponRepository.findByUserIdAndCouponId(1L, 1L))
+                    .thenReturn(Optional.empty());
+
+            Order order = new Order(1L, 1L, 1L, OrderStatus.COMPLETE, OrderAmountInfo.of(30000, 50000, 20000), LocalDateTime.now(), LocalDateTime.now());
+
+            CouponCommand.CouponApplyCommand command = CouponCommand.CouponApplyCommand.of(order, 1L);
+
+            //when, then
+            assertThatThrownBy(() -> couponService.applyCoupon(command))
+                    .isInstanceOf(CustomException.class)
+                    .hasMessageContaining(CouponErrorCode.COUPON_NOT_OWNED_BY_USER.getMessage());
+        }
+    }
+
+    @Nested
+    class 쿠폰_발급 {
+        @Test
+        void 이미_쿠폰_발급_받은_경우_CustomException_발생() {
+            //given
+            when(couponRepository.existsCouponIssueByUserIdAndCouponId(1L, 1L))
+                    .thenReturn(true);
+
+            CouponCommand.CouponIssueCommand command = CouponCommand.CouponIssueCommand.of(1L, 1L);
+
+            //when, then
+            assertThatThrownBy(() -> couponService.issueCoupon(command))
+                    .isInstanceOf(CustomException.class)
+                    .hasMessageContaining(CouponErrorCode.COUPON_ALREADY_ISSUED.getMessage());
+        }
+
+        @Test
+        void 쿠폰이_존재하지_않는_경우_CustomException_발생() {
+            //given
+            when(couponRepository.existsCouponIssueByUserIdAndCouponId(1L, 1L))
+                    .thenReturn(false);
+            when(couponRepository.findCouponById(1L))
+                    .thenReturn(Optional.empty());
+
+            CouponCommand.CouponIssueCommand command = CouponCommand.CouponIssueCommand.of(1L, 1L);
+
+            //when, then
+            assertThatThrownBy(() -> couponService.issueCoupon(command))
+                    .isInstanceOf(CustomException.class)
+                    .hasMessageContaining(CouponErrorCode.COUPON_NOT_FOUND.getMessage());
+        }
+
+        @Test
+        void 유저_쿠폰_보유_여부_조회_레포지토리_1회_호출() {
+            //given
+            Coupon coupon = new Coupon(1L, "쿠폰명", DiscountType.FIXED, 10000, LocalDateTime.MIN, LocalDateTime.MAX, 10, LocalDateTime.now(), LocalDateTime.now());
+
+            when(couponRepository.existsCouponIssueByUserIdAndCouponId(1L, 1L))
+                    .thenReturn(false);
+            when(couponRepository.findCouponById(1L))
+                    .thenReturn(Optional.of(coupon));
+            when(couponRepository.saveCouponIssue(CouponIssue.of(1L, coupon)))
+                    .thenReturn(CouponIssue.of(1L, coupon));
+
+            CouponCommand.CouponIssueCommand command = CouponCommand.CouponIssueCommand.of(1L, 1L);
+
+            //when
+            couponService.issueCoupon(command);
+
+            //then
+            verify(couponRepository, times(1)).existsCouponIssueByUserIdAndCouponId(1L, 1L);
+        }
+
+        @Test
+        void 쿠폰_조회_레포지토리_1회_호출() {
+            //given
+            Coupon coupon = new Coupon(1L, "쿠폰명", DiscountType.FIXED, 10000, LocalDateTime.MIN, LocalDateTime.MAX, 10, LocalDateTime.now(), LocalDateTime.now());
+
+            when(couponRepository.existsCouponIssueByUserIdAndCouponId(1L, 1L))
+                    .thenReturn(false);
+            when(couponRepository.findCouponById(1L))
+                    .thenReturn(Optional.of(coupon));
+            when(couponRepository.saveCouponIssue(CouponIssue.of(1L, coupon)))
+                    .thenReturn(CouponIssue.of(1L, coupon));
+
+            CouponCommand.CouponIssueCommand command = CouponCommand.CouponIssueCommand.of(1L, 1L);
+
+            //when
+            couponService.issueCoupon(command);
+
+            //then
+            verify(couponRepository, times(1)).findCouponById(1L);
+        }
+
+        @Test
+        void 쿠폰_내역_저장_레포지토리_1회_호출() {
+
+            //given
+            Coupon coupon = new Coupon(1L, "쿠폰명", DiscountType.FIXED, 10000, LocalDateTime.MIN, LocalDateTime.MAX, 10, LocalDateTime.now(), LocalDateTime.now());
+
+            when(couponRepository.existsCouponIssueByUserIdAndCouponId(1L, 1L))
+                    .thenReturn(false);
+            when(couponRepository.findCouponById(1L))
+                    .thenReturn(Optional.of(coupon));
+            when(couponRepository.saveCouponIssue(CouponIssue.of(1L, coupon)))
+                    .thenReturn(CouponIssue.of(1L, coupon));
+
+            CouponCommand.CouponIssueCommand command = CouponCommand.CouponIssueCommand.of(1L, 1L);
+
+            //when
+            couponService.issueCoupon(command);
+
+            //then
+            verify(couponRepository, times(1)).saveCouponIssue(CouponIssue.of(1L, coupon));
+        }
+
+        @Test
+        void 쿠폰_발급_실패_시_쿠폰_발급_내역_저장_0회_호출() {
+
+            //given
+            Coupon coupon = new Coupon(1L, "쿠폰명", DiscountType.FIXED, 10000, LocalDateTime.MIN, LocalDateTime.MIN, 10, LocalDateTime.now(), LocalDateTime.now());
+
+            when(couponRepository.existsCouponIssueByUserIdAndCouponId(1L, 1L))
+                    .thenReturn(false);
+            when(couponRepository.findCouponById(1L))
+                    .thenReturn(Optional.of(coupon));
+
+            CouponCommand.CouponIssueCommand command = CouponCommand.CouponIssueCommand.of(1L, 1L);
+
+            //when, then
+            assertThatThrownBy(() -> couponService.issueCoupon(command))
+                    .isInstanceOf(RuntimeException.class);
+
+            verify(couponRepository, times(0)).saveCouponIssue(CouponIssue.of(1L, coupon));
+        }
+    }
+}

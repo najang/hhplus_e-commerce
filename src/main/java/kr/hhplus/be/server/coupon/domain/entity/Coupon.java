@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import kr.hhplus.be.server.common.exception.CustomException;
 import kr.hhplus.be.server.coupon.domain.DiscountType;
 import kr.hhplus.be.server.coupon.application.exception.CouponErrorCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -11,6 +12,7 @@ import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
 
+@Getter
 @Entity
 @NoArgsConstructor
 public class Coupon {
@@ -65,5 +67,18 @@ public class Coupon {
         this.count = count;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+    }
+
+    public void issue() {
+        LocalDateTime now = LocalDateTime.now();
+
+        if(validTo.isAfter(now) || validFrom.isBefore(now)) {
+            throw new CustomException(CouponErrorCode.INVALID_COUPON);
+        }
+        if(count <= 0) {
+            throw new CustomException(CouponErrorCode.COUPON_ISSUANCE_LIMIT_EXHAUSTED);
+        }
+
+        this.count--;
     }
 }

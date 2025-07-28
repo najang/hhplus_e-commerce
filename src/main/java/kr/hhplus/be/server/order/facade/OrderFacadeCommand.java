@@ -1,7 +1,7 @@
 package kr.hhplus.be.server.order.facade;
 
 import kr.hhplus.be.server.balance.application.command.BalanceCommand;
-import kr.hhplus.be.server.coupon.command.CouponCommand;
+import kr.hhplus.be.server.coupon.application.command.CouponCommand;
 import kr.hhplus.be.server.order.application.command.OrderCommand;
 import kr.hhplus.be.server.order.domain.entity.OrderInfo;
 import kr.hhplus.be.server.product.application.command.ProductCommand;

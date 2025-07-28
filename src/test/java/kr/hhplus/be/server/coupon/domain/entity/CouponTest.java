@@ -1,10 +1,10 @@
-package kr.hhplus.be.server.Coupon.domain.entity;
+package kr.hhplus.be.server.coupon.domain.entity;
 
 import kr.hhplus.be.server.common.exception.CustomException;
 import kr.hhplus.be.server.coupon.domain.DiscountType;
-import kr.hhplus.be.server.coupon.domain.entity.Coupon;
 import kr.hhplus.be.server.coupon.application.exception.CouponErrorCode;
 import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
 import org.junit.jupiter.params.provider.NullSource;
@@ -79,6 +79,54 @@ class CouponTest {
             assertThatThrownBy(() -> new Coupon(1L, "쿠폰명", DiscountType.FIXED, 10000, LocalDateTime.MIN, LocalDateTime.MAX, count, LocalDateTime.now(), LocalDateTime.now()))
                     .isInstanceOf(CustomException.class)
                     .hasMessageContaining(CouponErrorCode.COUPON_QUANTITY_MUST_BE_POSITIVE.getMessage());
+        }
+    }
+
+    @Nested
+    class 쿠폰_발급 {
+        @Test
+        void 유효한_시작일시가_현재_이후이면_CustomException_발생() {
+            //given
+            Coupon coupon = new Coupon(1L, "쿠폰명", DiscountType.FIXED, 10000, LocalDateTime.MAX, LocalDateTime.MAX, 100, LocalDateTime.now(), LocalDateTime.now());
+
+            //when, then
+            assertThatThrownBy(coupon::issue)
+                    .isInstanceOf(CustomException.class)
+                    .hasMessageContaining(CouponErrorCode.INVALID_COUPON.getMessage());
+        }
+
+        @Test
+        void 유효한_종료일시가_현재_이전이면_CustomException_발생() {
+            //given
+            Coupon coupon = new Coupon(1L, "쿠폰명", DiscountType.FIXED, 10000, LocalDateTime.MIN, LocalDateTime.MIN, 100, LocalDateTime.now(), LocalDateTime.now());
+
+            //when, then
+            assertThatThrownBy(coupon::issue)
+                    .isInstanceOf(CustomException.class)
+                    .hasMessageContaining(CouponErrorCode.INVALID_COUPON.getMessage());
+        }
+
+        @Test
+        void 수량이_없는_경우_CustomException_발생() {
+            //given
+            Coupon coupon = new Coupon(1L, "쿠폰명", DiscountType.FIXED, 10000, LocalDateTime.MIN, LocalDateTime.MAX, 0, LocalDateTime.now(), LocalDateTime.now());
+
+            //when, then
+            assertThatThrownBy(coupon::issue)
+                    .isInstanceOf(CustomException.class)
+                    .hasMessageContaining(CouponErrorCode.COUPON_ISSUANCE_LIMIT_EXHAUSTED.getMessage());
+        }
+
+        @Test
+        void 정상_발급시_수량_하나_감소() {
+            //given
+            Coupon coupon = new Coupon(1L, "쿠폰명", DiscountType.FIXED, 10000, LocalDateTime.MIN, LocalDateTime.MAX, 10, LocalDateTime.now(), LocalDateTime.now());
+
+            //when
+            coupon.issue();
+
+            //then
+            assertThat(coupon.getCount()).isEqualTo(9);
         }
     }
 }
