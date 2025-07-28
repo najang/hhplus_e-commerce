@@ -30,6 +30,12 @@ public class OrderFacadeCommand {
                     .toList();
         }
 
+        public List<ProductCommand.StockIncreaseCommand> toStockIncreaseCommands() {
+            return orderProducts.stream()
+                    .map(OrderProductCreateFacadeCommand::toStockIncreaseCommand)
+                    .toList();
+        }
+
         public OrderCommand.OrderCreateCommand toOrderCreateCommand(List<Product> products) {
 
             Map<Long, Product> productMap = products.stream().collect(Collectors.toMap(Product::getId, Function.identity()));
@@ -61,6 +67,10 @@ public class OrderFacadeCommand {
 
         public ProductCommand.StockDecreaseCommand toStockDecreaseCommand() {
             return ProductCommand.StockDecreaseCommand.of(productId, count);
+        }
+
+        public ProductCommand.StockIncreaseCommand toStockIncreaseCommand() {
+            return ProductCommand.StockIncreaseCommand.of(productId, count);
         }
 
         public OrderCommand.OrderProductCreateCommand toOrderProductCreateCommand(Product product) {

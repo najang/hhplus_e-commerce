@@ -47,12 +47,32 @@ public class ProductService {
 
         List<Product> products = productRepository.findByIdIn(productIds);
 
-        Map<Long, Product> productMap = products.stream().collect(Collectors.toMap(Product::getId, Function.identity()));
+        Map<Long, Product> productMap = products.stream()
+                .collect(Collectors.toMap(Product::getId, Function.identity()));
 
         for (ProductCommand.StockDecreaseCommand command : commands) {
-
             Product product = productMap.get(command.productId());
             product.decreaseStock(command.count());
+        }
+
+        return products;
+    }
+
+    @Transactional
+    public List<Product> increaseStocks(List<ProductCommand.StockIncreaseCommand> commands) {
+
+        List<Long> productIds = commands.stream()
+                .map(ProductCommand.StockIncreaseCommand::productId)
+                .toList();
+
+        List<Product> products = productRepository.findByIdIn(productIds);
+
+        Map<Long, Product> productMap = products.stream()
+                .collect(Collectors.toMap(Product::getId, Function.identity()));
+
+        for (ProductCommand.StockIncreaseCommand command : commands) {
+            Product product = productMap.get(command.productId());
+            product.increaseStock(command.count());
         }
 
         return products;
