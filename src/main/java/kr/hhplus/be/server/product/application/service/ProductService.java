@@ -2,7 +2,7 @@ package kr.hhplus.be.server.product.application.service;
 
 import kr.hhplus.be.server.common.exception.CustomException;
 import kr.hhplus.be.server.order.domain.entity.OrderProduct;
-import kr.hhplus.be.server.product.application.command.ProductCommand;
+import kr.hhplus.be.server.product.application.service.command.ProductCommand;
 import kr.hhplus.be.server.product.domain.entity.PopularProduct;
 import kr.hhplus.be.server.product.domain.entity.Product;
 import kr.hhplus.be.server.product.domain.repository.ProductRepository;

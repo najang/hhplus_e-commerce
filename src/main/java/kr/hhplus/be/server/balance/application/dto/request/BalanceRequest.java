@@ -2,7 +2,7 @@ package kr.hhplus.be.server.balance.application.dto.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Positive;
-import kr.hhplus.be.server.balance.application.command.BalanceCommand;
+import kr.hhplus.be.server.balance.application.service.command.BalanceCommand;
 
 public class BalanceRequest {
         @Schema(title = "유저 잔액 충전 요청값")

@@ -1,4 +1,4 @@
-package kr.hhplus.be.server.order.interfaces.api;
+package kr.hhplus.be.server.order.presentation.interfaces.api;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;

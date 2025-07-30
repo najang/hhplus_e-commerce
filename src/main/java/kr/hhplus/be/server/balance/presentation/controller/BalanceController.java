@@ -3,11 +3,9 @@ package kr.hhplus.be.server.balance.presentation.controller;
 import kr.hhplus.be.server.balance.application.dto.request.BalanceRequest;
 import kr.hhplus.be.server.balance.application.dto.response.BalanceResponse;
 import kr.hhplus.be.server.balance.application.service.BalanceService;
-import kr.hhplus.be.server.balance.interfaces.api.BalanceApiSpec;
+import kr.hhplus.be.server.balance.presentation.interfaces.api.BalanceApiSpec;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.math.BigDecimal;
 
 @RestController
 @RequestMapping("/api/v1/user")

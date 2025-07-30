@@ -1,9 +1,6 @@
 package kr.hhplus.be.server.order.domain.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import kr.hhplus.be.server.common.exception.CustomException;
 import kr.hhplus.be.server.order.application.exception.OrderErrorCode;
 import kr.hhplus.be.server.product.domain.entity.Product;
@@ -22,9 +19,9 @@ public class OrderProduct {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "order_id")
     private Order order;
-
-    private long orderId;
 
     private long productId;
 
@@ -46,12 +43,12 @@ public class OrderProduct {
         return new OrderProduct(null, order.getId(), product.getId(), product.getName(), product.getPrice(), count);
     }
 
-    public OrderProduct(Long id, long orderId, long itemId, String productName, int sellPrice, int count) {
+    public OrderProduct(Long id, long orderId, long productId, String productName, int sellPrice, int count) {
 
         if (orderId < 0) {
             throw new CustomException(OrderErrorCode.INVALID_NEGATIVE_ORDER_ID);
         }
-        if (itemId < 0) {
+        if (productId < 0) {
             throw new CustomException(OrderErrorCode.INVALID_NEGATIVE_PRODUCT_ID);
         }
         if (!StringUtils.hasText(productName)) {
@@ -65,8 +62,7 @@ public class OrderProduct {
         }
 
         this.id = id;
-        this.orderId = orderId;
-        this.productId = itemId;
+        this.productId = productId;
         this.productName = productName;
         this.sellPrice = sellPrice;
         this.count = count;
@@ -78,5 +74,9 @@ public class OrderProduct {
 
     public LocalDate getOrderDate() {
         return order.getCreatedAt().toLocalDate();
+    }
+
+    public Long getOrderId() {
+        return order.getId();
     }
 }

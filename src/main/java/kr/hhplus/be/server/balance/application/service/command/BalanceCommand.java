@@ -1,4 +1,4 @@
-package kr.hhplus.be.server.balance.application.command;
+package kr.hhplus.be.server.balance.application.service.command;
 
 public class BalanceCommand {
     public record BalanceChargeCommand(long userId, int amount) {

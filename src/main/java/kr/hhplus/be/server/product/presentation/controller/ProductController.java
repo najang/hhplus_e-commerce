@@ -1,12 +1,10 @@
 package kr.hhplus.be.server.product.presentation.controller;
 
-import kr.hhplus.be.server.product.application.dto.request.ProductRequest;
 import kr.hhplus.be.server.product.application.dto.response.ProductResponse;
 import kr.hhplus.be.server.product.application.service.ProductService;
-import kr.hhplus.be.server.product.interfaces.api.ProductApiSpec;
+import kr.hhplus.be.server.product.presentation.interfaces.api.ProductApiSpec;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 

@@ -1,4 +1,4 @@
-package kr.hhplus.be.server.product.facade;
+package kr.hhplus.be.server.product.application.facade;
 
 import kr.hhplus.be.server.order.application.service.OrderService;
 import kr.hhplus.be.server.order.domain.entity.OrderProduct;

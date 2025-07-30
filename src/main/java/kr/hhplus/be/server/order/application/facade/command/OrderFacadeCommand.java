@@ -1,10 +1,10 @@
-package kr.hhplus.be.server.order.facade;
+package kr.hhplus.be.server.order.application.facade.command;
 
-import kr.hhplus.be.server.balance.application.command.BalanceCommand;
-import kr.hhplus.be.server.coupon.application.command.CouponCommand;
-import kr.hhplus.be.server.order.application.command.OrderCommand;
+import kr.hhplus.be.server.balance.application.service.command.BalanceCommand;
+import kr.hhplus.be.server.coupon.application.service.command.CouponCommand;
+import kr.hhplus.be.server.order.application.service.command.OrderCommand;
 import kr.hhplus.be.server.order.domain.entity.OrderInfo;
-import kr.hhplus.be.server.product.application.command.ProductCommand;
+import kr.hhplus.be.server.product.application.service.command.ProductCommand;
 import kr.hhplus.be.server.product.domain.entity.Product;
 
 import java.util.List;

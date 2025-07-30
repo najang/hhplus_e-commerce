@@ -1,4 +1,4 @@
-package kr.hhplus.be.server.product.application.command;
+package kr.hhplus.be.server.product.application.service.command;
 
 public class ProductCommand {
     public record StockDecreaseCommand(

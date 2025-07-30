@@ -1,4 +1,4 @@
-package kr.hhplus.be.server.order.application.command;
+package kr.hhplus.be.server.order.application.service.command;
 
 import kr.hhplus.be.server.product.domain.entity.Product;
 

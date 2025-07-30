@@ -1,6 +1,6 @@
 package kr.hhplus.be.server.balance.application.service;
 
-import kr.hhplus.be.server.balance.application.command.BalanceCommand;
+import kr.hhplus.be.server.balance.application.service.command.BalanceCommand;
 import kr.hhplus.be.server.balance.domain.entity.Amount;
 import kr.hhplus.be.server.balance.domain.entity.Balance;
 import kr.hhplus.be.server.balance.domain.entity.PointHistory;

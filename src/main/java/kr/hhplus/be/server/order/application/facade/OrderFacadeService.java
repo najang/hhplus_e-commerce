@@ -1,8 +1,9 @@
-package kr.hhplus.be.server.order.facade;
+package kr.hhplus.be.server.order.application.facade;
 
 import kr.hhplus.be.server.balance.application.service.BalanceService;
 import kr.hhplus.be.server.coupon.application.service.CouponService;
 import kr.hhplus.be.server.order.application.dto.result.OrderResult;
+import kr.hhplus.be.server.order.application.facade.command.OrderFacadeCommand;
 import kr.hhplus.be.server.order.application.service.OrderService;
 import kr.hhplus.be.server.order.domain.entity.OrderInfo;
 import kr.hhplus.be.server.product.application.service.ProductService;

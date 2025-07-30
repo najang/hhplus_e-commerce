@@ -5,7 +5,7 @@ import jakarta.validation.constraints.Positive;
 import kr.hhplus.be.server.coupon.application.dto.request.CouponRequest;
 import kr.hhplus.be.server.coupon.application.dto.response.CouponResponse;
 import kr.hhplus.be.server.coupon.application.service.CouponService;
-import kr.hhplus.be.server.coupon.interfaces.api.CouponApiSpec;
+import kr.hhplus.be.server.coupon.presentation.interfaces.api.CouponApiSpec;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

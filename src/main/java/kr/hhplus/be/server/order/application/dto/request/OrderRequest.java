@@ -3,7 +3,7 @@ package kr.hhplus.be.server.order.application.dto.request;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
-import kr.hhplus.be.server.order.facade.OrderFacadeCommand;
+import kr.hhplus.be.server.order.application.facade.command.OrderFacadeCommand;
 
 import java.util.List;
 

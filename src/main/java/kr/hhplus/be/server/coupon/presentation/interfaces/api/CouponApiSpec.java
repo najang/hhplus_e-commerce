@@ -1,4 +1,4 @@
-package kr.hhplus.be.server.coupon.interfaces.api;
+package kr.hhplus.be.server.coupon.presentation.interfaces.api;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;

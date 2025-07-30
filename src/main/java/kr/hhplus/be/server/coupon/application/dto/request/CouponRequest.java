@@ -2,7 +2,7 @@ package kr.hhplus.be.server.coupon.application.dto.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Positive;
-import kr.hhplus.be.server.coupon.application.command.CouponCommand;
+import kr.hhplus.be.server.coupon.application.service.command.CouponCommand;
 
 
 public class CouponRequest {
