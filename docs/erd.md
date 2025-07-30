@@ -95,7 +95,7 @@ erDiagram
     POPULAR_PRODUCTS {
         BIGINT id "인기상품 id"
         BIGINT product_id "상품 id"
-        BIGINT orrder_count "주문수량"
+        BIGINT order_count "주문수량"
         DATE order_date "주문일자"
         DATETIME created_at "생성일시"
     }
