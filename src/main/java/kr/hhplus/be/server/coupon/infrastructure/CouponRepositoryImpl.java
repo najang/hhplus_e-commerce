@@ -1,0 +1,43 @@
+package kr.hhplus.be.server.coupon.infrastructure;
+
+import kr.hhplus.be.server.coupon.domain.entity.Coupon;
+import kr.hhplus.be.server.coupon.domain.entity.CouponIssue;
+import kr.hhplus.be.server.coupon.domain.repository.CouponRepository;
+
+import java.util.List;
+import java.util.Optional;
+
+public class CouponRepositoryImpl implements CouponRepository {
+    private final CouponJpaRepository couponJpaRepository;
+    private final CouponIssueJpaRepository couponIssueJpaRepository;
+
+    public CouponRepositoryImpl(CouponJpaRepository couponJpaRepository, CouponIssueJpaRepository couponIssueJpaRepository) {
+        this.couponJpaRepository = couponJpaRepository;
+        this.couponIssueJpaRepository = couponIssueJpaRepository;
+    }
+
+    @Override
+    public List<CouponIssue> findByUserId(long userId) {
+        return couponIssueJpaRepository.findByUserId(userId);
+    }
+
+    @Override
+    public Optional<CouponIssue> findByUserIdAndCouponId(long userId, long couponId) {
+        return couponIssueJpaRepository.findByUserIdAndCouponId(userId, couponId);
+    }
+
+    @Override
+    public boolean existsCouponIssueByUserIdAndCouponId(long userId, long couponId) {
+        return couponIssueJpaRepository.existByUserIdAndCouponId(userId, couponId);
+    }
+
+    @Override
+    public Optional<Coupon> findCouponById(long couponId) {
+        return couponJpaRepository.findById(couponId);
+    }
+
+    @Override
+    public CouponIssue saveCouponIssue(CouponIssue couponIssue) {
+        return couponIssueJpaRepository.save(couponIssue);
+    }
+}
