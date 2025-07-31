@@ -3,11 +3,9 @@ package kr.hhplus.be.server.balance.presentation.controller;
 import kr.hhplus.be.server.balance.application.dto.request.BalanceRequest;
 import kr.hhplus.be.server.balance.application.dto.response.BalanceResponse;
 import kr.hhplus.be.server.balance.application.service.BalanceService;
-import kr.hhplus.be.server.balance.interfaces.api.BalanceApiSpec;
+import kr.hhplus.be.server.balance.presentation.interfaces.api.BalanceApiSpec;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.math.BigDecimal;
 
 @RestController
 @RequestMapping("/api/v1/user")
@@ -21,15 +19,15 @@ public class BalanceController implements BalanceApiSpec {
 
     @GetMapping("/{userId}/balance")
     @Override
-    public ResponseEntity<BalanceResponse> getUserBalance(Long userId) {
-        BalanceResponse response = BalanceResponse.from(balanceService.findByUserId(userId));
+    public ResponseEntity<BalanceResponse.UserPointResponse> getUserBalance(@PathVariable Long userId) {
+        BalanceResponse.UserPointResponse response = BalanceResponse.UserPointResponse.from(balanceService.findByUserId(userId));
         return ResponseEntity.ok(response);
     }
 
     @PostMapping("/charge")
     @Override
-    public ResponseEntity<BalanceResponse> charge(BalanceRequest.BalanceChargeRequest request) {
-        BalanceResponse response = BalanceResponse.from(balanceService.charge(request.toCommand()));
+    public ResponseEntity<BalanceResponse.UserPointResponse> charge(BalanceRequest.BalanceChargeRequest request) {
+        BalanceResponse.UserPointResponse response = BalanceResponse.UserPointResponse.from(balanceService.charge(request.toCommand()));
         return ResponseEntity.ok(response);
     }
 }

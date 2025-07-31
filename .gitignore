@@ -38,3 +38,5 @@ out/
 
 data
 .DS_Store
+
+src/main/generated

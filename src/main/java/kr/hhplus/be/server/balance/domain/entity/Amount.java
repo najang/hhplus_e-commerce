@@ -3,10 +3,12 @@ package kr.hhplus.be.server.balance.domain.entity;
 import jakarta.persistence.Embeddable;
 import kr.hhplus.be.server.balance.application.exception.BalanceErrorCode;
 import kr.hhplus.be.server.common.exception.CustomException;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 @Embeddable
 @Getter
+@EqualsAndHashCode
 public class Amount {
 
     private final int value;

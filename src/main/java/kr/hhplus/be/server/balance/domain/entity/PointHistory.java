@@ -1,11 +1,10 @@
 package kr.hhplus.be.server.balance.domain.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import kr.hhplus.be.server.balance.application.exception.BalanceErrorCode;
 import kr.hhplus.be.server.balance.domain.TransactionType;
 import kr.hhplus.be.server.common.exception.CustomException;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 
@@ -13,10 +12,12 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
+@Getter
 @NoArgsConstructor
 public class PointHistory {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private long pointId;

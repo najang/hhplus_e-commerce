@@ -7,6 +7,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import kr.hhplus.be.server.balance.application.exception.BalanceErrorCode;
 import kr.hhplus.be.server.common.exception.CustomException;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -16,6 +17,7 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @NoArgsConstructor
+@EqualsAndHashCode(of = {"userId", "amount"})
 public class Balance {
 
     private static final int MAX_POINT_LIMIT = 1000000;

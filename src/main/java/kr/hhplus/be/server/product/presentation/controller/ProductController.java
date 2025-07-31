@@ -1,12 +1,11 @@
 package kr.hhplus.be.server.product.presentation.controller;
 
-import kr.hhplus.be.server.product.application.dto.request.ProductRequest;
 import kr.hhplus.be.server.product.application.dto.response.ProductResponse;
 import kr.hhplus.be.server.product.application.service.ProductService;
-import kr.hhplus.be.server.product.interfaces.api.ProductApiSpec;
+import kr.hhplus.be.server.product.presentation.interfaces.api.ProductApiSpec;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,7 +23,7 @@ public class ProductController implements ProductApiSpec {
 
     @GetMapping("/{productId}")
     @Override
-    public ResponseEntity<ProductResponse.ProductDetailResponse> getProduct(Long productId) {
+    public ResponseEntity<ProductResponse.ProductDetailResponse> getProduct(@PathVariable Long productId) {
         ProductResponse.ProductDetailResponse response = ProductResponse.ProductDetailResponse.from(productService.findById(productId));
         return ResponseEntity.ok(response);
     }

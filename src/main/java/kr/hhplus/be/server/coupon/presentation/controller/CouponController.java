@@ -5,7 +5,7 @@ import jakarta.validation.constraints.Positive;
 import kr.hhplus.be.server.coupon.application.dto.request.CouponRequest;
 import kr.hhplus.be.server.coupon.application.dto.response.CouponResponse;
 import kr.hhplus.be.server.coupon.application.service.CouponService;
-import kr.hhplus.be.server.coupon.interfaces.api.CouponApiSpec;
+import kr.hhplus.be.server.coupon.presentation.interfaces.api.CouponApiSpec;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,14 +22,20 @@ public class CouponController implements CouponApiSpec {
     }
 
     @Override
-    @GetMapping("/user/{id}")
-    public ResponseEntity<List<CouponResponse.UserCouponResponse>> getUserCoupons(@RequestParam @Positive Long userId) {
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<CouponResponse.UserCouponResponse>> getUserCoupons(@PathVariable @Positive Long userId) {
 
-        List<CouponResponse.UserCouponResponse> response = couponService.findByUserId(userId).stream()
-                .map(CouponResponse.UserCouponResponse::from)
-                .toList();
+        try {
+            List<CouponResponse.UserCouponResponse> response = couponService.findByUserId(userId).stream()
+                    .map(CouponResponse.UserCouponResponse::from)
+                    .toList();
 
-        return ResponseEntity.ok(response);
+            return ResponseEntity.ok(response);
+
+        } catch (Exception e) {
+            e.printStackTrace(); // 콘솔에 진짜 원인 출력
+            throw e;
+        }
     }
 
     @Override

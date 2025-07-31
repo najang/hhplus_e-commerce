@@ -1,6 +1,6 @@
 package kr.hhplus.be.server.order.application.service;
 
-import kr.hhplus.be.server.order.application.command.OrderCommand;
+import kr.hhplus.be.server.order.application.service.command.OrderCommand;
 import kr.hhplus.be.server.order.domain.entity.Order;
 import kr.hhplus.be.server.order.domain.entity.OrderInfo;
 import kr.hhplus.be.server.order.domain.entity.OrderProduct;

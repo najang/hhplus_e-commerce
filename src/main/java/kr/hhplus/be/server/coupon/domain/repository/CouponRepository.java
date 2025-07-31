@@ -18,5 +18,5 @@ public interface CouponRepository {
 
     Optional<Coupon> findCouponById(long couponId);
 
-    CouponIssue saveCouponIssue(CouponIssue conponIssue);
+    CouponIssue saveCouponIssue(CouponIssue couponIssue);
 }
