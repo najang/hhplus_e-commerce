@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.Positive;
 import kr.hhplus.be.server.product.application.dto.response.ProductResponse;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
@@ -23,7 +24,7 @@ public interface ProductApiSpec
             @ApiResponse(responseCode = "200", description = "상품 조회 성공",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ProductResponse.class)))
     })
-    ResponseEntity<ProductResponse.ProductDetailResponse> getProduct(@RequestParam @Positive Long productId);
+    ResponseEntity<ProductResponse.ProductDetailResponse> getProduct(@PathVariable @Positive Long productId);
 
     @Operation(summary = "인기 상품 조회",
             description = "데이터 플랫폼에서 최근 3일간 인기 상품을 조회한다.")
