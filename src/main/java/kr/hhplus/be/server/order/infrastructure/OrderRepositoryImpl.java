@@ -11,10 +11,12 @@ import java.util.List;
 public class OrderRepositoryImpl implements OrderRepository {
     private final OrderJpaRepository orderJpaRepository;
     private final OrderProductJpaRepository orderProductJpaRepository;
+    private final OrderQuerydslRepository orderQuerydslRepository;
 
-    public OrderRepositoryImpl(OrderJpaRepository orderJpaRepository, OrderProductJpaRepository orderProductJpaRepository) {
+    public OrderRepositoryImpl(OrderJpaRepository orderJpaRepository, OrderProductJpaRepository orderProductJpaRepository, OrderQuerydslRepository orderQuerydslRepository) {
         this.orderJpaRepository = orderJpaRepository;
         this.orderProductJpaRepository = orderProductJpaRepository;
+        this.orderQuerydslRepository = orderQuerydslRepository;
     }
 
     @Override
@@ -29,6 +31,6 @@ public class OrderRepositoryImpl implements OrderRepository {
 
     @Override
     public List<OrderProduct> findTodayOrderProducts() {
-        return List.of();
+        return orderQuerydslRepository.findTodayOrderProducts();
     }
 }
