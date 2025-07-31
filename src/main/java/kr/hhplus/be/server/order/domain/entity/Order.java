@@ -3,6 +3,7 @@ package kr.hhplus.be.server.order.domain.entity;
 import jakarta.persistence.*;
 import kr.hhplus.be.server.common.exception.CustomException;
 import kr.hhplus.be.server.order.application.exception.OrderErrorCode;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
@@ -16,6 +17,7 @@ import java.util.Objects;
 @Table(name = "orders")
 @Getter
 @NoArgsConstructor
+@EqualsAndHashCode(of = "id")
 public class Order {
 
     @Id

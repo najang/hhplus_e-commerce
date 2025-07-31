@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import kr.hhplus.be.server.common.exception.CustomException;
 import kr.hhplus.be.server.order.application.exception.OrderErrorCode;
 import kr.hhplus.be.server.product.domain.entity.Product;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.util.StringUtils;
@@ -13,6 +14,7 @@ import java.time.LocalDate;
 @Entity
 @Getter
 @NoArgsConstructor
+@EqualsAndHashCode
 public class OrderProduct {
 
     @Id
