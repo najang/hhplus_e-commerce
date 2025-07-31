@@ -11,5 +11,5 @@ public interface CouponIssueJpaRepository extends JpaRepository<CouponIssue, Lon
 
     Optional<CouponIssue> findByUserIdAndCouponId(long userId, long couponId);
 
-    boolean existByUserIdAndCouponId(long userId, long couponId);
+    boolean existsByUserIdAndCouponId(long userId, long couponId);
 }

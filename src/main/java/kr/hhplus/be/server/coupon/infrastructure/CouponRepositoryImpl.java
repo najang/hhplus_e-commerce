@@ -3,10 +3,12 @@ package kr.hhplus.be.server.coupon.infrastructure;
 import kr.hhplus.be.server.coupon.domain.entity.Coupon;
 import kr.hhplus.be.server.coupon.domain.entity.CouponIssue;
 import kr.hhplus.be.server.coupon.domain.repository.CouponRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
+@Repository
 public class CouponRepositoryImpl implements CouponRepository {
     private final CouponJpaRepository couponJpaRepository;
     private final CouponIssueJpaRepository couponIssueJpaRepository;
@@ -28,7 +30,7 @@ public class CouponRepositoryImpl implements CouponRepository {
 
     @Override
     public boolean existsCouponIssueByUserIdAndCouponId(long userId, long couponId) {
-        return couponIssueJpaRepository.existByUserIdAndCouponId(userId, couponId);
+        return couponIssueJpaRepository.existsByUserIdAndCouponId(userId, couponId);
     }
 
     @Override

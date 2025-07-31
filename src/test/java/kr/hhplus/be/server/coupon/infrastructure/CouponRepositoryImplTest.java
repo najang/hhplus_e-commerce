@@ -38,7 +38,7 @@ public class CouponRepositoryImplTest {
     @Test
     void saveCouponThenFindById() {
         //given
-        Coupon coupon = new Coupon(1L, "쿠폰명", DiscountType.FIXED, 10000, LocalDateTime.now(), LocalDateTime.now().plusMonths(3), 10, LocalDateTime.now(), LocalDateTime.now());
+        Coupon coupon = new Coupon(null, "쿠폰명", DiscountType.FIXED, 10000, LocalDateTime.now(), LocalDateTime.now().plusMonths(3), 10, LocalDateTime.now(), LocalDateTime.now());
         couponJpaRepository.save(coupon);
 
         //when
@@ -83,6 +83,7 @@ public class CouponRepositoryImplTest {
     void existsCouponIssueHistoryByUserIdAndCouponId() {
         //given
         CouponIssue couponIssue = new CouponIssue(null, 1L, "쿠폰명1", DiscountType.FIXED, 10000, 1L, LocalDateTime.now().plusMonths(3), false, LocalDateTime.now());
+        couponIssueJpaRepository.save(couponIssue);
 
         //when
         boolean result = couponRepository.existsCouponIssueByUserIdAndCouponId(couponIssue.getUserId(), couponIssue.getCouponId());
