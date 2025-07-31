@@ -5,6 +5,7 @@ import kr.hhplus.be.server.common.exception.CustomException;
 import kr.hhplus.be.server.coupon.domain.DiscountType;
 import kr.hhplus.be.server.coupon.domain.policy.DiscountPolicy;
 import kr.hhplus.be.server.coupon.application.exception.CouponErrorCode;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
@@ -15,6 +16,7 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @NoArgsConstructor
+@EqualsAndHashCode(of = {"userId", "couponId"})
 public class CouponIssue {
 
     @Id
