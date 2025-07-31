@@ -10,6 +10,8 @@ import kr.hhplus.be.server.product.application.exception.ProductErrorCode;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -80,9 +82,28 @@ public class ProductService {
 
     @Transactional
     public List<PopularProduct> createPopularProductStatistics(List<OrderProduct> orderProducts) {
+        Map<Long, List<OrderProduct>> grouped = orderProducts.stream()
+                .collect(Collectors.groupingBy(OrderProduct::getProductId));
 
-        List<PopularProduct> popularProducts = orderProducts.stream()
-                .map(PopularProduct::of)
+        List<PopularProduct> popularProducts = grouped.entrySet().stream()
+                .map(entry -> {
+                    Long productId = entry.getKey();
+                    List<OrderProduct> products = entry.getValue();
+
+                    int price = products.get(0).getSellPrice();  // 동일한 productId면 가격도 동일하다고 가정
+                    int orderCount = products.stream().mapToInt(OrderProduct::getCount).sum(); // 수량 합계
+                    LocalDate orderDate = LocalDate.now();  // 또는 items.get(0).getOrderDate() 등
+                    LocalDateTime createdAt = LocalDateTime.now();
+
+                    return new PopularProduct(
+                            null,              // ID는 생성 시 null
+                            productId,
+                            price,
+                            orderDate,
+                            orderCount,
+                            createdAt
+                    );
+                })
                 .toList();
 
         return productRepository.savePopularProducts(popularProducts);
