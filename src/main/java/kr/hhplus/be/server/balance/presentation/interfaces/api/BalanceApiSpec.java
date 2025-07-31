@@ -11,6 +11,7 @@ import jakarta.validation.constraints.Positive;
 import kr.hhplus.be.server.balance.application.dto.request.BalanceRequest;
 import kr.hhplus.be.server.balance.application.dto.response.BalanceResponse;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -23,7 +24,7 @@ public interface BalanceApiSpec {
             @ApiResponse(responseCode = "200", description = "잔액 조회 성공",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = BalanceResponse.class)))
     })
-    ResponseEntity<BalanceResponse> getUserBalance(@RequestParam @Positive Long userId);
+    ResponseEntity<BalanceResponse.UserPointResponse> getUserBalance(@PathVariable @Positive Long userId);
 
     @Operation(summary = "유저 포인트 충전",
             description = "유저의 포인트를 충전한다.")
@@ -31,5 +32,5 @@ public interface BalanceApiSpec {
             @ApiResponse(responseCode = "200", description = "포인트 충전 성공",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = BalanceResponse.class)))
     })
-    ResponseEntity<BalanceResponse> charge(@RequestBody @Valid BalanceRequest.BalanceChargeRequest request);
+    ResponseEntity<BalanceResponse.UserPointResponse> charge(@RequestBody @Valid BalanceRequest.BalanceChargeRequest request);
 }

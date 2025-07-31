@@ -11,21 +11,12 @@ import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor
-@Schema(title = "유저 충전 금액 응답값")
 public class BalanceResponse {
-
-        private Long userId;
-        private int amount;
-        private LocalDateTime updatedAt;
-
-        @Builder
-        private BalanceResponse(Long userId, int amount, LocalDateTime updatedAt) {
-                this.userId = userId;
-                this.amount = amount;
-                this.updatedAt = updatedAt;
-        }
-
-        public static BalanceResponse from(Balance balance) {
-                return new BalanceResponse(balance.getUserId(), balance.getAmount(), balance.getUpdatedAt());
+        @Schema(title = "유저 잔액 정보 응답값")
+        public record UserPointResponse(int amount, LocalDateTime updatedAt
+        ) {
+                public static UserPointResponse from(Balance balance) {
+                        return new UserPointResponse(balance.getAmount(), balance.getUpdatedAt());
+                }
         }
 }
