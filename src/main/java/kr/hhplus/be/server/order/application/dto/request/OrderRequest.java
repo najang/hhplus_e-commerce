@@ -1,6 +1,7 @@
 package kr.hhplus.be.server.order.application.dto.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import kr.hhplus.be.server.order.application.facade.command.OrderFacadeCommand;
@@ -16,9 +17,11 @@ public class OrderRequest {
             @Positive
             long userId,
             @Schema(description = "쿠폰식별자", example = "1")
+            @Positive
             Long couponId,
             @Schema(description = "주문 상품 정보 목록", example = "[1, 2, 3]")
             @NotNull
+            @Valid
             List<OrderProductCreateRequest> products
     ) {
         public OrderFacadeCommand.OrderCreateFacadeCommand toCommand() {
