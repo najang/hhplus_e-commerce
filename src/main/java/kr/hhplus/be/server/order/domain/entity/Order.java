@@ -1,10 +1,6 @@
 package kr.hhplus.be.server.order.domain.entity;
 
-import jakarta.persistence.Embedded;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import kr.hhplus.be.server.common.exception.CustomException;
 import kr.hhplus.be.server.order.application.exception.OrderErrorCode;
 import lombok.Getter;
@@ -17,6 +13,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
+@Table(name = "orders")
 @Getter
 @NoArgsConstructor
 public class Order {

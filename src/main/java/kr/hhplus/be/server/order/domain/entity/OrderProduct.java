@@ -19,9 +19,7 @@ public class OrderProduct {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "order_id")
-    private Order order;
+    private long orderId;
 
     private long productId;
 
@@ -62,6 +60,7 @@ public class OrderProduct {
         }
 
         this.id = id;
+        this.orderId = orderId;
         this.productId = productId;
         this.productName = productName;
         this.sellPrice = sellPrice;
@@ -70,13 +69,5 @@ public class OrderProduct {
 
     public int getOrderProductPrice() {
         return sellPrice * count;
-    }
-
-    public LocalDate getOrderDate() {
-        return order.getCreatedAt().toLocalDate();
-    }
-
-    public Long getOrderId() {
-        return order.getId();
     }
 }
