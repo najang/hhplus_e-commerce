@@ -21,7 +21,7 @@ public interface CouponApiSpec {
             @ApiResponse(responseCode = "200", description = "보유 쿠폰 조회 성공",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = CouponResponse.UserCouponResponse.class)))
     })
-    ResponseEntity<List<CouponResponse.UserCouponResponse>> getUserCoupons(@RequestParam Long userId);
+    ResponseEntity<List<CouponResponse.UserCouponResponse>> getUserCoupons(@PathVariable Long userId);
 
     @Operation(summary = "선착순 쿠폰 발급",
             description = "선착순으로 유저에게 쿠폰을 발급한다.")

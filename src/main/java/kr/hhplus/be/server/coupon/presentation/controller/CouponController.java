@@ -22,14 +22,20 @@ public class CouponController implements CouponApiSpec {
     }
 
     @Override
-    @GetMapping("/user/{id}")
-    public ResponseEntity<List<CouponResponse.UserCouponResponse>> getUserCoupons(@RequestParam @Positive Long userId) {
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<CouponResponse.UserCouponResponse>> getUserCoupons(@PathVariable @Positive Long userId) {
 
-        List<CouponResponse.UserCouponResponse> response = couponService.findByUserId(userId).stream()
-                .map(CouponResponse.UserCouponResponse::from)
-                .toList();
+        try {
+            List<CouponResponse.UserCouponResponse> response = couponService.findByUserId(userId).stream()
+                    .map(CouponResponse.UserCouponResponse::from)
+                    .toList();
 
-        return ResponseEntity.ok(response);
+            return ResponseEntity.ok(response);
+
+        } catch (Exception e) {
+            e.printStackTrace(); // 콘솔에 진짜 원인 출력
+            throw e;
+        }
     }
 
     @Override
